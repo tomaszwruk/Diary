@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Diary
+namespace Diary.Views
 {
     /// <summary>
     /// Logika interakcji dla klasy AddEditStudentView.xaml

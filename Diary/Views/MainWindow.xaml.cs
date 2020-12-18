@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Diary
+namespace Diary.views
 {
     /// <summary>
     /// Logika interakcji dla klasy MainWindow.xaml
