@@ -1,0 +1,4 @@
+﻿Rozpoczęto kompilację...
+1>------ Kompilacja rozpoczęta: Projekt: Diary, Konfiguracja: Debug Any CPU ------
+1>  Diary -> E:\Projekty\C#\Diary\Diary\bin\Debug\Diary.exe
+========== Kompilacja: 1 zakończono powodzeniem, 0 zakończono niepowodzeniem, 0 zaktualizowano, 0 pominięto ==========
