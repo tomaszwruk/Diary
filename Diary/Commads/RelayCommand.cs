@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Diary.Commads
+namespace Diary.Commands
 {
     class RelayCommand : ICommand
     {
@@ -17,10 +17,10 @@ namespace Diary.Commads
 
         }
 
-        public RelayCommand(Action<object> execute, Predicate<object> _canExecute)
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
             _execute = execute ?? throw new ArgumentNullException("execute");
-            _canExecute = CanExecute;
+            _canExecute = canExecute;
 
         }
 

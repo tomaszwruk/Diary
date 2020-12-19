@@ -76,8 +76,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Commads\AsyncRelayCommand.cs" />
+    <Compile Include="Commads\RelayCommand.cs" />
     <Compile Include="ViewModels\AddEditStudentViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\AddEditStudentView.xaml.cs">
       <DependentUpon>AddEditStudentView.xaml</DependentUpon>
     </Compile>
