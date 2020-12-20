@@ -16,23 +16,73 @@
         </Grid.RowDefinitions>
         
         <StackPanel Orientation="Horizontal">
-            <Button Content="Dodaj" Height="25" Width="100" Margin="5" />
-            <Button Content="Edytuj" Height="25" Width="100" Margin="5"/>
-            <Button Content="Usuń" Height="25" Width="100" Margin="5"/>
-            <ComboBox Height="25" Width="150" Margin="5"/>
-            <Button Content="Odśwież" Command="{Binding RefreshStudentCommand}"  Height="25" Width="100" Margin="5"/>  <!--Style="{StaticResource BtnRefreshStyle}"-->
-            <TextBox Text="{Binding test, Mode=TwoWay}" Height="25" Width="100" Margin="5"/>
-            <!--<Button Height="25">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="31" Source="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4myc9?ver=c8c3" Height="15"/>
-                        <Label Content="Przycisk" FontSize="8"/>
-                    </StackPanel>
-                </Button.Content>
-            </Button>-->
+            <Button 
+                Content="Dodaj"
+                Command="{Binding AddStudentCommand}"
+                Height="25" 
+                Width="100" 
+                Margin="5" />
+            
+            <Button 
+                Content="Edytuj"
+                Command="{Binding EditStudentCommand}"
+                CommandParameter="{Binding SelectedStudent}"
+                Height="25" 
+                Width="100" 
+                Margin="5"/>
+            
+            <Button 
+                Content="Usuń" 
+                Command="{Binding DeleteStudentCommand}"
+                CommandParameter="{Binding SelectedStudent}"
+                Height="25" 
+                Width="100" 
+                Margin="5"/>
+            
+            <ComboBox 
+                Height="25" 
+                Width="150" 
+                Margin="5"
+                ItemsSource="{Binding Groups}"
+                SelectedValue="{Binding SelectedGroupId}"
+                DisplayMemberPath="Nazwa"                
+                SelectedValuePath="Id"/>
+            
+            <Button 
+                Content="Odśwież" 
+                Command="{Binding RefreshStudentCommand}"  
+                Height="25" 
+                Width="100" 
+                Margin="5"/>  <!--Style="{StaticResource BtnRefreshStyle}"-->
+            
+
         </StackPanel>
-        
-        <DataGrid Grid.Row="1" Margin="5"/>
+
+        <DataGrid 
+            Grid.Row="1" 
+            Margin="5" 
+            ItemsSource="{Binding Students}" 
+            SelectedItem="{Binding SelectedStudent}"
+            CanUserAddRows="False"
+            IsReadOnly="True"
+            SelectionMode="Single"
+            AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Visibility="Hidden" Header="ID"/>
+                <DataGridTextColumn Binding="{Binding FirstName}" Header="Imię"/>
+                <DataGridTextColumn Binding="{Binding LastName}" Header="Nazwisko"/>
+                <DataGridTextColumn Binding="{Binding Comments}" Header="Komentarz" Width="200"/>
+                <DataGridTextColumn Binding="{Binding Math}" Header="Mat."/>
+                <DataGridTextColumn Binding="{Binding Technology}" Header="Tech."/>
+                <DataGridTextColumn Binding="{Binding Physics}" Header="Fiz."/>
+                <DataGridTextColumn Binding="{Binding PolishLang}" Header="J. pol."/>
+                <DataGridTextColumn Binding="{Binding ForeignLang}" Header="J. obcy"/>
+                <DataGridCheckBoxColumn Binding="{Binding Activities}" Header="Dodatkowe"/>
+                <DataGridTextColumn Binding="{Binding Group.Name}" Header="Grupa"/>
+
+            </DataGrid.Columns>
+                
+         </DataGrid>
 
     </Grid>
 </mah:MetroWindow>
