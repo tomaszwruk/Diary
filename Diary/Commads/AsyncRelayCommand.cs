@@ -42,10 +42,22 @@ namespace Diary.Commads
                 return canExecute(parameter);
             }
 
-            public void Execute(object parameter)
+            public async void Execute(object parameter)
             {
-                throw new NotImplementedException();
+                Interlocked.Exchange(ref isExecuting, 1);
+                RaiseCanExecuteChanged();
+
+                try
+                {
+                    await execute(parameter);
+                }
+                finally
+                {
+                    Interlocked.Exchange(ref isExecuting, 0);
+                    RaiseCanExecuteChanged();
+                }
             }
+        
         }
     }
 
