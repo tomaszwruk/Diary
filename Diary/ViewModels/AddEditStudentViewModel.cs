@@ -1,5 +1,6 @@
 ﻿using Diary.Commands;
 using Diary.Models;
+using Diary.Models.Wrappers;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,9 @@ namespace Diary.ViewModels
     {
         //private Student student;
 
-        private Student _student;
+        private StudentWrapper _student;
 
-        public Student Student
+        public StudentWrapper Student
         {
             get { return _student; }
             set
@@ -43,7 +44,7 @@ namespace Diary.ViewModels
 
 
 
-        public AddEditStudentViewModel(Student student = null)
+        public AddEditStudentViewModel(StudentWrapper student = null)
         {
             CloseCommand = new RelayCommand(Close);
             ConfirmCommand = new RelayCommand(Confirm);
@@ -51,7 +52,7 @@ namespace Diary.ViewModels
 
             if (student == null) //IsUpdate domyślnie jest false - wtedy jest dodawanie
             {
-                Student = new Student();
+                Student = new StudentWrapper();
             }
             else
             {
@@ -65,21 +66,21 @@ namespace Diary.ViewModels
 
         private void InitGroups()
         {
-            Groups = new ObservableCollection<Group>
+            Groups = new ObservableCollection<GroupWrapper>
             {
-                new Group
+                new GroupWrapper
                 {
                     ID = 0,
                     Nazwa = "-- brak --"
                 },
 
-                new Group
+                new GroupWrapper
                 {
                     ID = 1,
                     Nazwa = "Gr1"
                 },
 
-                new Group
+                new GroupWrapper
                 {
                     ID = 1,
                     Nazwa = "Gr2"
@@ -100,8 +101,8 @@ namespace Diary.ViewModels
             }
         }
 
-        private ObservableCollection<Group> _groups;
-        public ObservableCollection<Group> Groups
+        private ObservableCollection<GroupWrapper> _groups;
+        public ObservableCollection<GroupWrapper> Groups
         {
             get { return _groups; }
             set

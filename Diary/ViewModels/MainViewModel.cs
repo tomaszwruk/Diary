@@ -1,11 +1,13 @@
 ﻿using Diary.Commads;
 using Diary.Commands;
 using Diary.Models;
+using Diary.Models.Wrappers;
 using Diary.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -16,6 +18,11 @@ namespace Diary.ViewModels
     {
         public MainViewModel()
         {
+            using(var context = new ApplicationDBContext())
+            {
+                var students = context.Students.ToList();
+            }
+
             AddStudentCommand = new RelayCommand(AddEditStudent);
             EditStudentCommand = new RelayCommand(AddEditStudent, CanEditDeleteStudent);
             DeleteStudentCommand = new AsyncRelayCommand(DeleteStudent, CanEditDeleteStudent);
@@ -31,21 +38,21 @@ namespace Diary.ViewModels
 
         private void InitGroups()
         {
-            Groups = new ObservableCollection<Group>
+            Groups = new ObservableCollection<GroupWrapper>
             {
-                new Group
+                new GroupWrapper
                 {
                     ID = 0,
                     Nazwa = "Wsystkie"
                 },
 
-                new Group
+                new GroupWrapper
                 {
                     ID = 1,
                     Nazwa = "Gr1"
                 },
 
-                new Group
+                new GroupWrapper
                 {
                     ID = 1,
                     Nazwa = "Gr2"
@@ -54,9 +61,9 @@ namespace Diary.ViewModels
             SelectedGroupId = 0;
         }
 
-        private Student _selectedStudent;
+        private StudentWrapper _selectedStudent;
 
-        public Student SelectedStudent
+        public StudentWrapper SelectedStudent
         {
             get { return _selectedStudent; }
             set 
@@ -67,9 +74,9 @@ namespace Diary.ViewModels
         }
 
         //ObservableCollection w ModelViews używa się zamiast List, to te jest Lista
-        private ObservableCollection<Student> _students;
+        private ObservableCollection<StudentWrapper> _students;
 
-        public ObservableCollection<Student> Students
+        public ObservableCollection<StudentWrapper> Students
         {
             get { return _students; }
             set
@@ -91,9 +98,9 @@ namespace Diary.ViewModels
             }
         }
 
-        private ObservableCollection<Group> _groups;
+        private ObservableCollection<GroupWrapper> _groups;
 
-        public ObservableCollection<Group> Groups
+        public ObservableCollection<GroupWrapper> Groups
         {
             get { return _groups; }
             set 
@@ -135,7 +142,7 @@ namespace Diary.ViewModels
 
         private void AddEditStudent(object obj)
         {
-            var addEditStudentWindow = new AddEditStudentView(obj as Student);
+            var addEditStudentWindow = new AddEditStudentView(obj as StudentWrapper);
             addEditStudentWindow.Closed += addEditStudentWindow_Closed;
             addEditStudentWindow.ShowDialog();
         }
@@ -152,27 +159,27 @@ namespace Diary.ViewModels
 
         private void RefreshDiary()
         {
-            Students = new ObservableCollection<Student>
+            Students = new ObservableCollection<StudentWrapper>
             {
-                new Student
+                new StudentWrapper
                 {
                     FirstName = "Tomasz",
                     LastName = "Wruk",
-                    Group = new Group { ID = 1 }
+                    Group = new GroupWrapper { ID = 1 }
                 },
 
-                new Student
+                new StudentWrapper
                 {
                     FirstName = "Tymon",
                     LastName = "Wruk",
-                    Group = new Group { ID = 1 }
+                    Group = new GroupWrapper { ID = 1 }
                 },
 
-                new Student
+                new StudentWrapper
                 {
                     FirstName = "Mirek",
                     LastName = "Janicki",
-                    Group = new Group { ID = 1 }
+                    Group = new GroupWrapper { ID = 1 }
                 },
             };
         }
