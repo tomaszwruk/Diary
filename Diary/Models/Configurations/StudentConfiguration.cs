@@ -14,6 +14,16 @@ namespace Diary.Models.Configurations
         {
             ToTable("dbo.Students");
             HasKey(x => x.Id);
+            Property(x => x.FirstName)
+                .HasMaxLength(100)
+                .IsRequired();
+
+            ToTable("dbo.Students");
+            HasKey(x => x.Id);
+            Property(x => x.LastName)
+                .HasMaxLength(100)
+                .IsRequired();
+
         }
         
     }

@@ -22,3 +22,4 @@ namespace Diary.Models.Configurations
         }
     }
 }
+

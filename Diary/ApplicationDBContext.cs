@@ -20,6 +20,7 @@ namespace Diary
 
         public DbSet<Rating> Ratings { get; set; }
 
+        //konfiguracja dodatkokwych opcji na baie podczas tworzenia
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new StudentConfiguration());

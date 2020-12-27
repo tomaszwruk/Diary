@@ -18,6 +18,7 @@ namespace Diary.ViewModels
     {
         public MainViewModel()
         {
+            //tworzy bazę
             using(var context = new ApplicationDBContext())
             {
                 var students = context.Students.ToList();
