@@ -1,6 +1,7 @@
 ﻿using Diary.Commads;
 using Diary.Commands;
 using Diary.Models;
+using Diary.Models.Domains;
 using Diary.Models.Wrappers;
 using Diary.Views;
 using MahApps.Metro.Controls;
@@ -16,8 +17,10 @@ namespace Diary.ViewModels
 {
     class MainViewModel : ViewModelBase
     {
+        private Repository _repository = new Repository();
         public MainViewModel()
         {
+            
             //tworzy bazę
             using(var context = new ApplicationDBContext())
             {
@@ -39,26 +42,12 @@ namespace Diary.ViewModels
 
         private void InitGroups()
         {
-            Groups = new ObservableCollection<GroupWrapper>
-            {
-                new GroupWrapper
-                {
-                    ID = 0,
-                    Nazwa = "Wsystkie"
-                },
 
-                new GroupWrapper
-                {
-                    ID = 1,
-                    Nazwa = "Gr1"
-                },
+            var groups = _repository.GetGroups(); //pobieramy grupy
+            groups.Insert(0, new Group { Id = 0, Name = "Wszystkie" });//dodajemy zerową grupę
 
-                new GroupWrapper
-                {
-                    ID = 1,
-                    Nazwa = "Gr2"
-                }
-            };
+            Groups = new ObservableCollection<Group>(groups);
+
             SelectedGroupId = 0;
         }
 
@@ -99,9 +88,9 @@ namespace Diary.ViewModels
             }
         }
 
-        private ObservableCollection<GroupWrapper> _groups;
+        private ObservableCollection<Group> _groups;
 
-        public ObservableCollection<GroupWrapper> Groups
+        public ObservableCollection<Group> Groups
         {
             get { return _groups; }
             set 
@@ -132,6 +121,8 @@ namespace Diary.ViewModels
 
             //usuwanie ucznia 
 
+            _repository.DeleteStudent(SelectedStudent.ID);
+
             RefreshDiary();
         }
 
@@ -160,29 +151,32 @@ namespace Diary.ViewModels
 
         private void RefreshDiary()
         {
-            Students = new ObservableCollection<StudentWrapper>
-            {
-                new StudentWrapper
-                {
-                    FirstName = "Tomasz",
-                    LastName = "Wruk",
-                    Group = new GroupWrapper { ID = 1 }
-                },
+            Students = new ObservableCollection<StudentWrapper>(
+                _repository.GetStudents(SelectedGroupId));
 
-                new StudentWrapper
-                {
-                    FirstName = "Tymon",
-                    LastName = "Wruk",
-                    Group = new GroupWrapper { ID = 1 }
-                },
 
-                new StudentWrapper
-                {
-                    FirstName = "Mirek",
-                    LastName = "Janicki",
-                    Group = new GroupWrapper { ID = 1 }
-                },
-            };
+            //{
+            //    new StudentWrapper
+            //    {
+            //        FirstName = "Tomasz",
+            //        LastName = "Wruk",
+            //        Group = new GroupWrapper { ID = 1 }
+            //    },
+
+            //    new StudentWrapper
+            //    {
+            //        FirstName = "Tymon",
+            //        LastName = "Wruk",
+            //        Group = new GroupWrapper { ID = 1 }
+            //    },
+
+            //    new StudentWrapper
+            //    {
+            //        FirstName = "Mirek",
+            //        LastName = "Janicki",
+            //        Group = new GroupWrapper { ID = 1 }
+            //    },
+            //};
         }
 
     }

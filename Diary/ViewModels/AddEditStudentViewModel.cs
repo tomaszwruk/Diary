@@ -1,5 +1,6 @@
 ﻿using Diary.Commands;
 using Diary.Models;
+using Diary.Models.Domains;
 using Diary.Models.Wrappers;
 using MahApps.Metro.Controls;
 using System;
@@ -18,6 +19,7 @@ namespace Diary.ViewModels
         //private Student student;
 
         private StudentWrapper _student;
+        private Repository _repository = new Repository();
 
         public StudentWrapper Student
         {
@@ -66,26 +68,13 @@ namespace Diary.ViewModels
 
         private void InitGroups()
         {
-            Groups = new ObservableCollection<GroupWrapper>
-            {
-                new GroupWrapper
-                {
-                    ID = 0,
-                    Nazwa = "-- brak --"
-                },
 
-                new GroupWrapper
-                {
-                    ID = 1,
-                    Nazwa = "Gr1"
-                },
+            var groups = _repository.GetGroups(); //pobieramy grupy
+            groups.Insert(0, new Group { Id = 0, Name = "-- brak --" });//dodajemy zerową grupę
 
-                new GroupWrapper
-                {
-                    ID = 1,
-                    Nazwa = "Gr2"
-                }
-            };
+            Groups = new ObservableCollection<Group>(groups);
+
+            //SelectedGroupId = 0;
             Student.Group.ID = 0;
         }
 
@@ -101,8 +90,8 @@ namespace Diary.ViewModels
             }
         }
 
-        private ObservableCollection<GroupWrapper> _groups;
-        public ObservableCollection<GroupWrapper> Groups
+        private ObservableCollection<Group> _groups;
+        public ObservableCollection<Group> Groups
         {
             get { return _groups; }
             set
