@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Diary.Models.Conventers;
+using Diary.Models;
 
 namespace Diary
 {
@@ -55,5 +56,82 @@ namespace Diary
                 contex.SaveChanges();
             }
         }
+
+        public void UpdateStudent(StudentWrapper studentWrapper)
+        {
+            var student = studentWrapper.ToDao();
+            var ratings = studentWrapper.ToRatingDao();
+
+            using (var context = new ApplicationDBContext())
+            {
+                //wyszukaj jaki rekord w bazie zaaktualizować
+                var studentToUpdate = context.Students.Find(student.Id);
+                studentToUpdate.Activities = student.Activities;
+                studentToUpdate.Comments = student.Comments;
+                studentToUpdate.FirstName = student.FirstName;
+                studentToUpdate.LastName = student.LastName;
+                studentToUpdate.GroupId = student.GroupId;
+
+                //pobierz oceny z bazy
+                var studentRatings = context
+                    .Ratings
+                    .Where(x => x.StudentId == student.Id)
+                    .ToList();
+
+                //mając dane studenta w aplikacji i z bazy porównujemy oceny które się zmieniły dla posczególnych przedmiotów
+                //stare oceny
+                var mathRatings = studentRatings
+                    .Where(x => x.SubjectId == (int)Subject.Math)
+                    .Select(x => x.Rate); //wybierz tylko oceny 
+
+                //nowe oceny z aplikacji
+                var newMathRatings = ratings
+                    .Where(x => x.SubjectId == (int)Subject.Math)
+                    .Select(x => x.Rate); //wybierz tylko oceny 
+
+                //teraz trzeba porównać oceny nowe e starymi
+                //ze starych ocen wyklucz te które są nowe
+                var mathRatingsToDelete = mathRatings.Except(newMathRatings).ToList();
+                //z nowych wyklucz stare oceny 
+                var mathRatingsToAdd = newMathRatings.Except(mathRatings).ToList();
+
+                //usuń z bazy oceny
+                mathRatingsToDelete.ForEach(x =>
+                {
+                    var ratingToDelete = context.Ratings.First(y =>
+                        y.Rate == x && //gdzie równe oceny 
+                        y.StudentId == student.Id && //ten sam student i przedmiot
+                        y.SubjectId == (int)Subject.Math);
+
+                    context.Ratings.Remove(ratingToDelete);
+                });
+
+            } 
+
+        }
+
+        public void AddStudent(StudentWrapper studentWrapper)
+        {
+            var student = studentWrapper.ToDao();
+            var ratings = studentWrapper.ToRatingDao();
+
+            using (var context = new ApplicationDBContext())
+            {
+                var dbStudents = context.Students.Add(student); //dodajemy do bazy studenta a następnie pobieramy jego id
+                //zapisz każdą ocenę do bazy    
+                ratings.ForEach(x =>
+                {
+                    x.StudentId = dbStudents.Id;
+                    context.Ratings.Add(x);
+                });
+
+            }
+        }
+
+
+
+        
+
     }
+
 }

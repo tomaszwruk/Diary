@@ -1,0 +1,5 @@
+﻿Migracje - Package Manager Console
+
+add-migration unikalna nazwa
+update-databse 
+

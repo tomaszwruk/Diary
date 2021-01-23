@@ -170,6 +170,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="DBScripts\202012271820347_SetLastNameMaxLength100RequiredInStudentsTable.sql" />
+    <Resource Include="Wiki.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

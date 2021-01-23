@@ -120,12 +120,14 @@ namespace Diary.ViewModels
 
         private void UpdateStudent()
         {
-            // baa danych       
+            // baa danych 
+            _repository.UpdateStudent(Student);
         }
 
         private void AddStudent()
         {
-            //baza danych     
+            //baza danych   
+            _repository.AddStudent(Student);
         }
 
         private void Close(object obj)

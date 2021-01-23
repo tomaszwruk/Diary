@@ -51,7 +51,7 @@ namespace Diary.Models.Conventers
             };
         } 
 
-        //konwenter odwrotny, Dao Data Object Object 
+        //konwenter odwrotny, Dao Data Access Object 
         public static Student ToDao(this StudentWrapper model)
         {
             return new Student
