@@ -78,35 +78,55 @@ namespace Diary
                     .Where(x => x.StudentId == student.Id)
                     .ToList();
 
-                //mając dane studenta w aplikacji i z bazy porównujemy oceny które się zmieniły dla posczególnych przedmiotów
-                //stare oceny
-                var mathRatings = studentRatings
-                    .Where(x => x.SubjectId == (int)Subject.Math)
+                
+
+            }
+
+        }
+
+        private static void UpdateRate (Student student, List<Rating> ratings, ApplicationDBContext context, List<Rating> studentRatings, Subject subject)
+        {
+            //mając dane studenta w aplikacji i z bazy porównujemy oceny które się zmieniły dla posczególnych przedmiotów
+            //stare oceny
+            var mathRatings = studentRatings
+                    .Where(x => x.SubjectId == (int) Subject.Math)
                     .Select(x => x.Rate); //wybierz tylko oceny 
 
-                //nowe oceny z aplikacji
-                var newMathRatings = ratings
-                    .Where(x => x.SubjectId == (int)Subject.Math)
-                    .Select(x => x.Rate); //wybierz tylko oceny 
+        //nowe oceny z aplikacji
+        var newMathRatings = ratings
+            .Where(x => x.SubjectId == (int)Subject.Math)
+            .Select(x => x.Rate); //wybierz tylko oceny 
 
-                //teraz trzeba porównać oceny nowe e starymi
-                //ze starych ocen wyklucz te które są nowe
-                var mathRatingsToDelete = mathRatings.Except(newMathRatings).ToList();
-                //z nowych wyklucz stare oceny 
-                var mathRatingsToAdd = newMathRatings.Except(mathRatings).ToList();
+        //teraz trzeba porównać oceny nowe e starymi
+        //ze starych ocen wyklucz te które są nowe
+        var mathRatingsToDelete = mathRatings.Except(newMathRatings).ToList();
+        //z nowych wyklucz stare oceny 
+        var mathRatingsToAdd = newMathRatings.Except(mathRatings).ToList();
 
-                //usuń z bazy oceny
-                mathRatingsToDelete.ForEach(x =>
+        //usuń z bazy oceny
+        mathRatingsToDelete.ForEach(x =>
                 {
                     var ratingToDelete = context.Ratings.First(y =>
                         y.Rate == x && //gdzie równe oceny 
                         y.StudentId == student.Id && //ten sam student i przedmiot
                         y.SubjectId == (int)Subject.Math);
 
-                    context.Ratings.Remove(ratingToDelete);
+        context.Ratings.Remove(ratingToDelete);
                 });
 
-            } 
+                //dodaj do bazy oceny
+                mathRatingsToAdd.ForEach(x =>
+                {
+
+                    var ratingToAdd = new Rating
+                    {
+                        Rate = x, //nowa ocena 
+                        StudentId = student.Id,
+                        SubjectId = (int)Subject.Math
+                    };
+
+    context.Ratings.Add(ratingToAdd);
+                });
 
         }
 
