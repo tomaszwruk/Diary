@@ -64,68 +64,84 @@ namespace Diary
 
             using (var context = new ApplicationDBContext())
             {
-                //wyszukaj jaki rekord w bazie zaaktualizować
-                var studentToUpdate = context.Students.Find(student.Id);
-                studentToUpdate.Activities = student.Activities;
-                studentToUpdate.Comments = student.Comments;
-                studentToUpdate.FirstName = student.FirstName;
-                studentToUpdate.LastName = student.LastName;
-                studentToUpdate.GroupId = student.GroupId;
+                UpdateStudentProperties(context, student);
 
-                //pobierz oceny z bazy
-                var studentRatings = context
-                    .Ratings
-                    .Where(x => x.StudentId == student.Id)
-                    .ToList();
+                var studentRatings = GetStudentRatings(context, student);
 
-                
+                UpdateRate(student, ratings, context, studentRatings, Subject.Math);
+                UpdateRate(student, ratings, context, studentRatings, Subject.Physics);
+                UpdateRate(student, ratings, context, studentRatings, Subject.PolishLang);
+                UpdateRate(student, ratings, context, studentRatings, Subject.ForeignLang);
+                UpdateRate(student, ratings, context, studentRatings, Subject.Technology);
+
+                context.SaveChanges();
 
             }
 
         }
 
-        private static void UpdateRate (Student student, List<Rating> ratings, ApplicationDBContext context, List<Rating> studentRatings, Subject subject)
+        private static List<Rating> GetStudentRatings(ApplicationDBContext context, Student student)
+        {
+            //pobierz oceny z bazy
+            return context
+                .Ratings
+                .Where(x => x.StudentId == student.Id)
+                .ToList();
+        }
+
+        private void UpdateStudentProperties(ApplicationDBContext context, Student student)
+        {
+            //wyszukaj jaki rekord w bazie zaaktualizować
+            var studentToUpdate = context.Students.Find(student.Id);
+            studentToUpdate.Activities = student.Activities;
+            studentToUpdate.Comments = student.Comments;
+            studentToUpdate.FirstName = student.FirstName;
+            studentToUpdate.LastName = student.LastName;
+            studentToUpdate.GroupId = student.GroupId;
+        }
+
+        private static void UpdateRate (Student student, List<Rating> newRatings, ApplicationDBContext context, List<Rating> studentRatings, Subject subject)
         {
             //mając dane studenta w aplikacji i z bazy porównujemy oceny które się zmieniły dla posczególnych przedmiotów
             //stare oceny
             var mathRatings = studentRatings
-                    .Where(x => x.SubjectId == (int) Subject.Math)
+                    .Where(x => x.SubjectId == (int)subject)
                     .Select(x => x.Rate); //wybierz tylko oceny 
 
         //nowe oceny z aplikacji
-        var newMathRatings = ratings
-            .Where(x => x.SubjectId == (int)Subject.Math)
+        var newSubRatings = newRatings
+            .Where(x => x.SubjectId == (int)subject)
             .Select(x => x.Rate); //wybierz tylko oceny 
 
         //teraz trzeba porównać oceny nowe e starymi
         //ze starych ocen wyklucz te które są nowe
-        var mathRatingsToDelete = mathRatings.Except(newMathRatings).ToList();
+        var subRatingsToDelete = mathRatings.Except(newSubRatings).ToList();
         //z nowych wyklucz stare oceny 
-        var mathRatingsToAdd = newMathRatings.Except(mathRatings).ToList();
+        var subRatingsToAdd = newSubRatings.Except(mathRatings).ToList();
 
         //usuń z bazy oceny
-        mathRatingsToDelete.ForEach(x =>
+        subRatingsToDelete.ForEach(x =>
                 {
                     var ratingToDelete = context.Ratings.First(y =>
                         y.Rate == x && //gdzie równe oceny 
                         y.StudentId == student.Id && //ten sam student i przedmiot
                         y.SubjectId == (int)Subject.Math);
 
-        context.Ratings.Remove(ratingToDelete);
+                    context.Ratings.Remove(ratingToDelete);
                 });
 
                 //dodaj do bazy oceny
-                mathRatingsToAdd.ForEach(x =>
+                subRatingsToAdd.ForEach(x =>
                 {
 
                     var ratingToAdd = new Rating
                     {
                         Rate = x, //nowa ocena 
                         StudentId = student.Id,
-                        SubjectId = (int)Subject.Math
+                        SubjectId = (int)subject
                     };
 
-    context.Ratings.Add(ratingToAdd);
+                context.Ratings.Add(ratingToAdd);
                 });
 
         }
