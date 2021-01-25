@@ -70,7 +70,8 @@ namespace Diary.Models.Conventers
             var ratings = new List<Rating>();
 
             if (string.IsNullOrWhiteSpace(model.Math))
-            
+            {
+
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
@@ -78,9 +79,10 @@ namespace Diary.Models.Conventers
                         StudentId = model.ID,
                         SubjectId = (int)Subject.Math
                     }));
+            }
 
             if (string.IsNullOrWhiteSpace(model.Physics))
-
+            { 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
@@ -88,8 +90,10 @@ namespace Diary.Models.Conventers
                         StudentId = model.ID,
                         SubjectId = (int)Subject.Physics
                     }));
-            if (string.IsNullOrWhiteSpace(model.PolishLang))
+            }
 
+            if (string.IsNullOrWhiteSpace(model.PolishLang))
+            { 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
@@ -97,9 +101,10 @@ namespace Diary.Models.Conventers
                         StudentId = model.ID,
                         SubjectId = (int)Subject.PolishLang
                     }));
+            }
 
             if (string.IsNullOrWhiteSpace(model.ForeignLang))
-
+            { 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
@@ -107,8 +112,10 @@ namespace Diary.Models.Conventers
                         StudentId = model.ID,
                         SubjectId = (int)Subject.ForeignLang
                     }));
-            
+            }
+
             if (string.IsNullOrWhiteSpace(model.Technology))
+            {
 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
@@ -117,6 +124,7 @@ namespace Diary.Models.Conventers
                         StudentId = model.ID,
                         SubjectId = (int)Subject.Technology
                     }));
+            }
 
             return ratings;
 

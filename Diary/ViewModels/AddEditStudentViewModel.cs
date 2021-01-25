@@ -74,8 +74,7 @@ namespace Diary.ViewModels
 
             Groups = new ObservableCollection<Group>(groups);
 
-            //SelectedGroupId = 0;
-            Student.Group.ID = 0;
+            SelectedGroupId = Student.Group.ID;
         }
 
         private int _selectedGroupId;
@@ -112,7 +111,7 @@ namespace Diary.ViewModels
             else
             {
                 UpdateStudent();
-            }
+            };
 
 
             CloseWindow(obj as Window);

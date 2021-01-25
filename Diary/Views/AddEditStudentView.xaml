@@ -9,6 +9,7 @@
         xmlns:local="clr-namespace:Diary"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Name="AddEditStudentV"
         Title="Dane ucznia" Height="520" Width="400">
     <Grid>
         <Grid.RowDefinitions>
@@ -37,7 +38,7 @@
             Margin="5"/>
         <TextBox 
             Visibility="{Binding IsUpdate, Converter={StaticResource BooleanToVisibilityConverter}}"
-            Text="{Binding Student.Id}" 
+            Text="{Binding Student.Id}"
             IsReadOnly="True" 
             Grid.Row="0" 
             Grid.Column="1" 
@@ -95,13 +96,15 @@
             <Button 
                 Content="Anuluj" 
                 Command="{Binding CloseCommand}"
+                CommandParameter="{Binding ElementName=AddEditStudentV}"
                 Height="25" 
                 Width="100" 
                 Margin="5"/>
             <Button 
                 Content="OK" 
                 Command="{Binding ConfirmCommand}"
-                Height="25" 
+                CommandParameter="{Binding ElementName=AddEditStudentV}" 
+            Height="25" 
                 Width="100" 
                 Margin="5"/>
 
