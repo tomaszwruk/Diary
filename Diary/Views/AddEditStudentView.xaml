@@ -75,8 +75,8 @@
         <Label Grid.Row="8" Content="Grupa:" Margin="5"/>
         <ComboBox 
             ItemsSource="{Binding Groups}"
-            SelectedItem="{Binding Student.Group.Id}"
-            DisplayMemberPath="Name"
+            SelectedValue="{Binding Student.Group.Id}"
+            DisplayMemberPath="Name"                
             SelectedValuePath="Id"
             Grid.Row="8" 
             Grid.Column="1" 
@@ -106,7 +106,7 @@
                 CommandParameter="{Binding ElementName=AddEditStudentV}" 
             Height="25" 
                 Width="100" 
-                Margin="5"/>
+                Margin="5" />
 
         </StackPanel>
 

@@ -8,8 +8,8 @@ namespace Diary.Models.Wrappers
 {
     public class GroupWrapper
     {
-        public int ID { get; set; }
-        public string Nazwa { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
 
 
     }

@@ -23,14 +23,14 @@ namespace Diary.Models.Conventers
         {
             return new StudentWrapper
             {
-                ID = model.Id,
+                Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Comments = model.Comments,
                 Activities = model.Activities,
                 Group = new GroupWrapper 
-                         { ID = model.Group.Id,
-                           Nazwa = model.Group.Name 
+                         { Id = model.Group.Id,
+                           Name = model.Group.Name 
                          },
                 Math = string.Join(", ", model.Ratings
                         .Where(y => y.SubjectId == (int)Subject.Math) //łaczy wszystkie oceny po przecinku              
@@ -56,10 +56,10 @@ namespace Diary.Models.Conventers
         {
             return new Student
             {
-                Id = model.ID,
+                Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                GroupId = model.Group.ID,
+                GroupId = model.Group.Id,
                 Comments = model.Comments,
                 Activities = model.Activities
             };
@@ -69,59 +69,59 @@ namespace Diary.Models.Conventers
         {
             var ratings = new List<Rating>();
 
-            if (string.IsNullOrWhiteSpace(model.Math))
+            if (!string.IsNullOrWhiteSpace(model.Math))
             {
 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
                         Rate = int.Parse(x),
-                        StudentId = model.ID,
+                        StudentId = model.Id,
                         SubjectId = (int)Subject.Math
                     }));
             }
 
-            if (string.IsNullOrWhiteSpace(model.Physics))
+            if (!string.IsNullOrWhiteSpace(model.Physics))
             { 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
                         Rate = int.Parse(x),
-                        StudentId = model.ID,
+                        StudentId = model.Id,
                         SubjectId = (int)Subject.Physics
                     }));
             }
 
-            if (string.IsNullOrWhiteSpace(model.PolishLang))
+            if (!string.IsNullOrWhiteSpace(model.PolishLang))
             { 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
                         Rate = int.Parse(x),
-                        StudentId = model.ID,
+                        StudentId = model.Id,
                         SubjectId = (int)Subject.PolishLang
                     }));
             }
 
-            if (string.IsNullOrWhiteSpace(model.ForeignLang))
+            if (!string.IsNullOrWhiteSpace(model.ForeignLang))
             { 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
                         Rate = int.Parse(x),
-                        StudentId = model.ID,
+                        StudentId = model.Id,
                         SubjectId = (int)Subject.ForeignLang
                     }));
             }
 
-            if (string.IsNullOrWhiteSpace(model.Technology))
+            if (!string.IsNullOrWhiteSpace(model.Technology))
             {
 
                 model.Math.Split(',').ToList().ForEach(x =>
                     ratings.Add(new Rating
                     {
                         Rate = int.Parse(x),
-                        StudentId = model.ID,
+                        StudentId = model.Id,
                         SubjectId = (int)Subject.Technology
                     }));
             }

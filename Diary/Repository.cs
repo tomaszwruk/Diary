@@ -161,6 +161,8 @@ namespace Diary
                     context.Ratings.Add(x);
                 });
 
+                context.SaveChanges();
+
             }
         }
 

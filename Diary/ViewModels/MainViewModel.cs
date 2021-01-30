@@ -121,7 +121,7 @@ namespace Diary.ViewModels
 
             //usuwanie ucznia 
 
-            _repository.DeleteStudent(SelectedStudent.ID);
+            _repository.DeleteStudent(SelectedStudent.Id);
 
             RefreshDiary();
         }

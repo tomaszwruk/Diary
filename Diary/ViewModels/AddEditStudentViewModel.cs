@@ -74,7 +74,7 @@ namespace Diary.ViewModels
 
             Groups = new ObservableCollection<Group>(groups);
 
-            SelectedGroupId = Student.Group.ID;
+            SelectedGroupId = Student.Group.Id;
         }
 
         private int _selectedGroupId;
